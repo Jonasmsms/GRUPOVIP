@@ -141,6 +141,55 @@
     box-shadow: 0 5px 14px rgba(255, 159, 0, 0.3);
   }
 
+  .scarcity {
+    background: #FFF8ED;
+    border: 1.5px solid #FFE1A8;
+    border-radius: 16px;
+    padding: 16px 18px;
+    margin-bottom: 26px;
+    text-align: left;
+  }
+
+  .scarcity-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .scarcity-top span:first-child {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #472600;
+  }
+
+  .scarcity-pct {
+    font-size: 13px;
+    font-weight: 800;
+    color: #E41A28;
+  }
+
+  .scarcity-bar {
+    width: 100%;
+    height: 10px;
+    background: #FFE9C2;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .scarcity-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FFBE21, #E41A28);
+    border-radius: 999px;
+  }
+
+  .scarcity-note {
+    font-size: 12.5px;
+    color: #8a6410;
+    font-weight: 600;
+  }
+
   .btn-whats {
     display: flex;
     align-items: center;
@@ -212,6 +261,17 @@
       <div class="badge">💰 Até 30% OFF</div>
       <div class="badge">🎟️ Cupons exclusivos</div>
       <div class="badge">📢 Novidades em 1º lugar</div>
+    </div>
+
+    <div class="scarcity">
+      <div class="scarcity-top">
+        <span>🔥 590 de 1.000 vagas preenchidas</span>
+        <span class="scarcity-pct">59%</span>
+      </div>
+      <div class="scarcity-bar">
+        <div class="scarcity-fill" style="width:59%"></div>
+      </div>
+      <div class="scarcity-note">O grupo tem limite de 1.000 pessoas — restam poucas vagas</div>
     </div>
 
     <a class="btn-whats" href="https://chat.whatsapp.com/IeAt8PdCvRML2yaPblcEXV" target="_blank">
