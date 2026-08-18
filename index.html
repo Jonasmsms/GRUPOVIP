@@ -142,12 +142,13 @@
   }
 
   .scarcity {
-    background: #FFF8ED;
+    background: linear-gradient(135deg, #FFF8ED, #FFFCF5);
     border: 1.5px solid #FFE1A8;
     border-radius: 16px;
     padding: 16px 18px;
-    margin-bottom: 26px;
+    margin-bottom: 22px;
     text-align: left;
+    box-shadow: 0 6px 18px rgba(255, 159, 0, 0.12);
   }
 
   .scarcity-top {
@@ -164,24 +165,46 @@
   }
 
   .scarcity-pct {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 800;
     color: #E41A28;
   }
 
   .scarcity-bar {
+    position: relative;
     width: 100%;
-    height: 10px;
+    height: 14px;
     background: #FFE9C2;
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 10px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
   }
 
   .scarcity-fill {
+    position: relative;
     height: 100%;
-    background: linear-gradient(90deg, #FFBE21, #E41A28);
+    width: 0%;
+    background: linear-gradient(90deg, #FFBE21, #FF7A1A, #E41A28);
     border-radius: 999px;
+    transition: width 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: hidden;
+  }
+
+  .scarcity-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.75), transparent);
+    animation: shine 1.6s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0% { left: -60%; }
+    100% { left: 140%; }
   }
 
   .scarcity-note {
@@ -255,23 +278,23 @@
 
     <img src="produto.jpg" alt="Croc Frangos - combo de produtos" class="photo-slot" loading="lazy">
 
+    <div class="scarcity" id="scarcity">
+      <div class="scarcity-top">
+        <span>🔥 <span id="scarcityLabel">890</span> de 1.000 vagas preenchidas</span>
+        <span class="scarcity-pct"><span id="scarcityPct">0</span>%</span>
+      </div>
+      <div class="scarcity-bar">
+        <div class="scarcity-fill" id="scarcityFill"></div>
+      </div>
+      <div class="scarcity-note">O grupo tem limite de 1.000 pessoas — restam poucas vagas</div>
+    </div>
+
     <p class="pitch">Entre pro <strong>Grupo VIP</strong> e garanta descontos de até <strong>30%</strong>, cupons exclusivos e novidades do cardápio antes de todo mundo.</p>
 
     <div class="badges">
       <div class="badge">💰 Até 30% OFF</div>
       <div class="badge">🎟️ Cupons exclusivos</div>
       <div class="badge">📢 Novidades em 1º lugar</div>
-    </div>
-
-    <div class="scarcity">
-      <div class="scarcity-top">
-        <span>🔥 590 de 1.000 vagas preenchidas</span>
-        <span class="scarcity-pct">59%</span>
-      </div>
-      <div class="scarcity-bar">
-        <div class="scarcity-fill" style="width:59%"></div>
-      </div>
-      <div class="scarcity-note">O grupo tem limite de 1.000 pessoas — restam poucas vagas</div>
     </div>
 
     <a class="btn-whats" href="https://chat.whatsapp.com/IeAt8PdCvRML2yaPblcEXV" target="_blank">
@@ -286,5 +309,41 @@
   </div>
 </div>
 
+<script>
+(function() {
+  var TARGET = 89;
+  var fill = document.getElementById('scarcityFill');
+  var pctEl = document.getElementById('scarcityPct');
+  var el = document.getElementById('scarcity');
+  var played = false;
+
+  function animate() {
+    if (played) return;
+    played = true;
+    fill.style.width = TARGET + '%';
+    var start = null;
+    var duration = 1800;
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      pctEl.textContent = Math.round(eased * TARGET);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) animate();
+      });
+    }, { threshold: 0.4 });
+    obs.observe(el);
+  } else {
+    animate();
+  }
+})();
+</script>
 </body>
 </html>
